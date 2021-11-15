@@ -25,7 +25,7 @@ $source = [
 ];
 
 // Name must be the same as in SNS Configuration > System > Maintenance > Backup > Advanced configuration > POST - control name
-$name = 'backup';
+$name = 'controlName';
 
 
 
