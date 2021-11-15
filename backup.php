@@ -48,7 +48,7 @@ if (TRUE!==in_array($remoteAddr,$source)){
 // Check HTTP request method
 $method = $_SERVER['REQUEST_METHOD'];
 if ('POST'!=$method)
-	logToFile("Bad HTTP request method '{$method}'.",TRUE);
+	logToFile("Bad HTTP request method '{$method}'",TRUE);
 
 // Check backup file is present
 if (1!=count($_FILES))
@@ -60,14 +60,14 @@ if (0==strlen($name))
 
 // Check name consistency
 if (TRUE!==array_key_exists($name,$_FILES))
-	logToFile("PHP \$name and SNS 'POST - control name' values must match.",TRUE);
+	logToFile("PHP \$name and SNS 'POST - control name' values must match",TRUE);
 
 // Copy uploaded file
 $copy = move_uploaded_file($_FILES[$name]['tmp_name'],$_FILES[$name]['name']);
 $message = sprintf(
 	(TRUE===$copy
-		? 'Success: Configuration from %s to %s has been saved.'
-		: 'Failure: Configuration from %s to %s has not been saved.'
+		? 'Success: Configuration from %s to %s has been saved'
+		: 'Failure: Configuration from %s to %s has not been saved'
 	),
 	$remoteAddr,
 	$_FILES[$name]['name']
