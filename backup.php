@@ -80,13 +80,9 @@ if (TRUE===file_exists($_FILES[$name]['name'])){
 
 // Copy uploaded file
 $copy = move_uploaded_file($_FILES[$name]['tmp_name'],$_FILES[$name]['name']);
-$message = sprintf(
-	(TRUE===$copy
-		? 'Success: Configuration has been saved to %s'
-		: 'Failure: Configuration has not been saved'
-	),
-	$_FILES[$name]['name']
-);
+$message = TRUE===$copy
+	? "Success: Configuration has been saved to $_FILES[$name]['name']"
+	: 'Failure: Configuration has not been saved';
 logToFile($message);
 
 ?>
