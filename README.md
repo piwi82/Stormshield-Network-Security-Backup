@@ -1,6 +1,8 @@
 # Stormshield-Network-Security-Backup
 
-Automate the configuratino backup of [Stormshield Network Security (SNS)](https://www.stormshield.com/products-services/products/network-security/product-range-sns/) devices/appliances.
+*This script has only been tested on SNS 3.7.1.*
+
+Automate the configuration backup of [Stormshield Network Security (SNS)](https://www.stormshield.com/products-services/products/network-security/product-range-sns/) devices/appliances.
 
 This PHP script can handle your [SNS backups](https://documentation.stormshield.eu/SNS/v3/en/Content/User_Configuration_Manual_SNS_v3.7_LTSB/Maintenance/Backup_tab.htm) to your local/outsourced HTTP/HTTPS server.
 
@@ -29,6 +31,17 @@ The general format of the URL called by SNS is :
 Using the previous configuration data :
 ```
 [POST] https://sns-backup.domain.tld:80/path/backup.php
+```
+
+The output file will be named :
+```
+backup_{nameOfTheBackupFile}_{snsVersion}_{dateTime}.na.enc
+backup_{nameOfTheBackupFile}_V.V.V_Y-m-d_His.na.enc
+```
+
+Using the previous configuration data :
+```
+backup_backupName_3.7.1_2021-11-16_203922.na.enc
 ```
 
 ## 2. Configure the backup.php script
