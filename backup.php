@@ -32,15 +32,12 @@ $name = 'controlName';
 // Logging function
 function logToFile(string $message,bool $exit = FALSE){
 	$date = (new DateTime)->format('Y-m-d H:i:s.u');
-	$filePutContents = file_put_contents(
-		'backup.log',
-		sprintf("%s\t%s\t%s\n",
-			$date,
-			$_SERVER['REMOTE_ADDR'],
-			$message
-		),
-		FILE_APPEND
+	$message = sprintf("%s\t%s\t%s\n",
+		$date,
+		$_SERVER['REMOTE_ADDR'],
+		$message
 	);
+	$filePutContents = file_put_contents('backup.log',$message,FILE_APPEND);
 	if (TRUE===$exit){
 		header('HTTP/1.0 400 Bad request',TRUE,400);
 		exit();
