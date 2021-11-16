@@ -30,19 +30,29 @@ $name = 'controlName';
 
 
 // Logging function
-function logToFile(string $message,string $file = 'backup.log',bool $exit = FALSE){
+function logToFile(string $message,bool $exit = FALSE){
 	$date = (new DateTime)->format('Y-m-d H:i:s.u');
-	$filePutContents = file_put_contents($file,"{$date}\t$message\n",FILE_APPEND);
-	if (TRUE===$exit) 
-		exit;
+	$filePutContents = file_put_contents(
+		'backup.log',
+		sprintf("%s\t%s\t%s\n",
+			$date,
+			$_SERVER['REMOTE_ADDR'],
+			$message
+		),
+		FILE_APPEND
+	);
+	if (TRUE===$exit){
+		header('HTTP/1.0 400 Bad request',TRUE,400);
+		exit();
+	}
 	return $filePutContents;
 }
 
+logToFile($_SERVER['HTTP_USER_AGENT']);
+
 // IP addresses whitelist
-$remoteAddr = $_SERVER['REMOTE_ADDR'];
-if (TRUE!==in_array($remoteAddr,$source)){
-	header('HTTP/1.0 403 Forbidden',TRUE,403);
-	exit;
+if (TRUE!==in_array($_SERVER['REMOTE_ADDR'],$source)){
+	logToFile("Host denied '{$_SERVER['REMOTE_ADDR']}'",TRUE);
 }
 
 // Check HTTP request method
@@ -62,14 +72,19 @@ if (0==strlen($name))
 if (TRUE!==array_key_exists($name,$_FILES))
 	logToFile("PHP \$name and SNS 'POST - control name' values must match",TRUE);
 
+// Check file existence
+if (TRUE===file_exists($_FILES[$name]['name'])){
+	$timestamp = (new DateTime)->format('YmdHisu');
+	rename($_FILES[$name]['name'],"{$_FILES[$name]['name']}.$timestamp");
+}
+
 // Copy uploaded file
 $copy = move_uploaded_file($_FILES[$name]['tmp_name'],$_FILES[$name]['name']);
 $message = sprintf(
 	(TRUE===$copy
-		? 'Success: Configuration from %s to %s has been saved'
-		: 'Failure: Configuration from %s to %s has not been saved'
+		? 'Success: Configuration has been saved to %s'
+		: 'Failure: Configuration has not been saved'
 	),
-	$remoteAddr,
 	$_FILES[$name]['name']
 );
 logToFile($message);
