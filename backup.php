@@ -51,13 +51,16 @@ if (TRUE!==in_array($_SERVER['REMOTE_ADDR'],$source)){
 }
 
 // Check HTTP request method
-$method = $_SERVER['REQUEST_METHOD'];
-if ('POST'!=$method)
-	logToFile("Bad HTTP request method '{$method}'",TRUE);
+if ('POST'!=$_SERVER['REQUEST_METHOD'])
+	logToFile("Bad HTTP request method '{$_SERVER['REQUEST_METHOD']}'",TRUE);
 
 // Check backup file is present
-if (1!=count($_FILES))
-	logToFile("Backup file not found",TRUE);
+if (isset($_FILES)){
+	if (count($_FILES)<1)
+		logToFile("Backup file not found",TRUE);
+	else if (1<count($_FILES))
+		logToFile("There should be only one backup file",TRUE);
+}
 
 // Check name length
 if (0==strlen($name))
