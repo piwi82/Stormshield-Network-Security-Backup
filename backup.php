@@ -45,8 +45,6 @@ function logToFile(string $message,bool $exit = FALSE){
 	return $filePutContents;
 }
 
-logToFile($_SERVER['HTTP_USER_AGENT']);
-
 // IP addresses whitelist
 if (TRUE!==in_array($_SERVER['REMOTE_ADDR'],$source)){
 	logToFile("Host denied '{$_SERVER['REMOTE_ADDR']}'",TRUE);
