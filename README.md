@@ -41,7 +41,7 @@ backup_{nameOfTheBackupFile}_V.V.V_Y-m-d_His.na.enc
 
 Using the previous configuration data :
 ```
-backup_backupName_3.7.1_2021-11-16_203922.na.enc
+backup_backupFile_3.7.1_2021-11-16_203922.na.enc
 ```
 
 ## 2. Configure the backup.php script
